@@ -36,12 +36,11 @@ const GalleryCard: React.FC<{ img: any, idx: number, addToRefs: (el: HTMLDivElem
       onMouseMove={handleMouseMove}
       className="scroll-reveal break-inside-avoid group relative overflow-hidden bg-stone-900 border border-white/5 shadow-2xl transition-all duration-700 hover:border-gold-500/30"
     >
-      <div className="relative overflow-hidden aspect-auto">
+      <div className="relative overflow-hidden aspect-auto bg-stone-950">
         <img 
           src={img.src} 
           alt={img.title} 
           className="w-full h-auto object-cover transition-transform duration-[3s] ease-out group-hover:scale-110" 
-          crossOrigin="anonymous"
         />
         
         {/* SPECULAR LIGHT LAYER */}
@@ -78,17 +77,15 @@ const Home: React.FC = () => {
       const scrolled = window.scrollY;
       
       if (heroImgRef.current) {
-        // Subtle Parallax with Scale: image moves slower and zooms out slightly for depth
         const scale = 1.1 - scrolled * 0.00015;
         const translate = scrolled * 0.4;
         heroImgRef.current.style.transform = `translate3d(0, ${translate}px, 0) scale(${Math.max(scale, 1)})`;
       }
       
       if (heroContentRef.current) {
-        // Content moves faster than background but slower than scroll
         const translate = scrolled * -0.15;
         heroContentRef.current.style.transform = `translate3d(0, ${translate}px, 0)`;
-        heroContentRef.current.style.opacity = `${Math.max(1 - scrolled / 800, 0)}`;
+        heroContentRef.current.style.opacity = `${Math.max(1 - scrolled / 800, 0.1)}`;
       }
     };
 
@@ -138,32 +135,31 @@ const Home: React.FC = () => {
       {/* SCROLL INDICATOR SIDEBAR */}
       <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-center space-y-6 pointer-events-none">
         <div className="w-px h-24 bg-white/10 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full bg-gold-500/50 h-full -translate-y-full animate-[slideUp_3s_infinite]"></div>
+          <div className="absolute top-0 left-0 w-full bg-gold-500/50 h-full -translate-y-full animate-pulse"></div>
         </div>
         <span className="text-[8px] font-cinzel text-stone-500 tracking-[0.5em] rotate-90 origin-center whitespace-nowrap translate-y-8 uppercase">Navigation Ritual</span>
       </div>
 
       {/* HERO SECTION */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-stone-950 bg-hero-placeholder">
         {/* Background Image Layer */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-stone-950 z-10"></div>
           <img 
             ref={heroImgRef}
             src={IMG_URLS[0]} 
-            className="w-full h-full object-cover scale-110 brightness-[0.6] will-change-transform"
+            className="w-full h-full object-cover scale-110 brightness-[0.5] will-change-transform"
             alt="Roman Wellness Sanctuary Vision"
-            crossOrigin="anonymous"
           />
           {/* Dust/Atmosphere Overlay */}
-          <div className="absolute inset-0 z-15 opacity-20 pointer-events-none mix-blend-screen bg-[url('https://www.transparenttextures.com/patterns/dust.png')]"></div>
+          <div className="absolute inset-0 z-15 opacity-10 pointer-events-none mix-blend-screen bg-[url('https://www.transparenttextures.com/patterns/dust.png')]"></div>
         </div>
 
         {/* Content Layer */}
         <div ref={heroContentRef} className="relative z-20 text-center px-6 max-w-7xl will-change-transform">
           <div className="animate-fade-in flex flex-col items-center">
-            {/* Tagline with line animation */}
-            <div className="flex items-center space-x-4 mb-8 opacity-0 animate-[fadeIn_1.5s_ease-out_forwards]">
+            {/* Tagline */}
+            <div className="flex items-center space-x-4 mb-8 opacity-0 animate-fade-in">
               <div className="h-px w-8 bg-gold-500/40"></div>
               <h2 className="font-cinzel text-gold-400 text-[9px] md:text-xs tracking-[1.2em] uppercase">
                 An Architectural Narrative
@@ -171,21 +167,21 @@ const Home: React.FC = () => {
               <div className="h-px w-8 bg-gold-500/40"></div>
             </div>
             
-            {/* Masked Main Heading */}
+            {/* Main Heading */}
             <div className="overflow-hidden mb-12">
-              <h1 className="font-serif text-6xl md:text-9xl lg:text-[12rem] text-white leading-[0.85] tracking-tight animate-[slideUp_1.4s_cubic-bezier(0.16,1,0.3,1)_forwards]">
+              <h1 className="font-serif text-6xl md:text-9xl lg:text-[12rem] text-white leading-[0.85] tracking-tight animate-hero-reveal">
                 SACRED <br/> 
-                <span className="italic text-gold-200 font-light opacity-80 inline-block translate-y-full animate-[slideUp_1.4s_cubic-bezier(0.16,1,0.3,1)_0.2s_forwards]">Architecture</span>
+                <span className="italic text-gold-200 font-light opacity-80 block mt-4">Architecture</span>
               </h1>
             </div>
             
             {/* Descriptive Text */}
-            <p className="font-sans text-stone-300 text-lg md:text-xl max-w-xl mx-auto mb-16 font-light leading-relaxed opacity-0 animate-[fadeIn_2s_ease-out_0.8s_forwards]">
+            <p className="font-sans text-stone-300 text-lg md:text-xl max-w-xl mx-auto mb-16 font-light leading-relaxed animate-fade-in [animation-delay:0.8s]">
               Honoring the monumental rhythm of Rome through contemporary void and material silence.
             </p>
 
             {/* Primary Action */}
-            <div className="opacity-0 animate-[fadeIn_2s_ease-out_1.2s_forwards]">
+            <div className="animate-fade-in [animation-delay:1.2s]">
               <Link 
                 to="/concept" 
                 className="group relative inline-flex items-center justify-center px-14 py-6 border border-white/20 text-white font-bold tracking-[0.4em] uppercase text-[10px] backdrop-blur-sm transition-all hover:border-gold-500"
@@ -201,14 +197,14 @@ const Home: React.FC = () => {
         </div>
 
         {/* Scroll Hint */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-4 opacity-40 hover:opacity-100 transition-opacity duration-500 cursor-pointer animate-[fadeIn_2s_ease-out_1.5s_forwards]">
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-4 opacity-40 hover:opacity-100 transition-opacity duration-500 cursor-pointer animate-fade-in [animation-delay:1.5s]">
           <span className="text-[8px] font-cinzel tracking-[0.4em] text-white uppercase">Discover</span>
           <div className="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
         </div>
       </section>
 
       {/* LIGHT & SHADOW GALLERY */}
-      <section className="py-48 px-6 bg-stone-950 relative">
+      <section className="py-48 px-6 bg-stone-950 relative" id="portfolio">
         {/* Abstract Light Shapes */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
           <div className="absolute top-1/4 -left-1/4 w-[800px] h-[800px] bg-gold-500/5 blur-[160px] rounded-full"></div>
@@ -237,7 +233,7 @@ const Home: React.FC = () => {
       <section className="py-48 bg-stone-900/40 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-24 items-center">
           <div ref={addToRefs} className="scroll-reveal order-2 lg:order-1">
-             <div className="relative aspect-[4/5] overflow-hidden border border-white/10 shadow-3xl group">
+             <div className="relative aspect-[4/5] overflow-hidden border border-white/10 shadow-3xl group bg-stone-950">
                 <img src={IMG_URLS[4]} className="w-full h-full object-cover brightness-50 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="Material Detail" />
                 <div className="absolute inset-0 bg-stone-950/20 group-hover:opacity-0 transition-opacity"></div>
              </div>
