@@ -4,11 +4,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Roman Wellness Sanctuary | Where Ancient Ritual Meets Modern Luxury</title>
+    <title>Roman Wellness Sanctuary | Architectural Ritual & Luxury Restoration</title>
+    
+    <!-- SEO & Vercel Social Sharing -->
+    <meta name="description" content="A visionary destination-scale sanctuary rooted in Roman bath culture, reimagined through contemporary architecture and monumental design." />
+    <meta property="og:title" content="Roman Wellness Sanctuary | Ancient Ritual, Modern Luxury" />
+    <meta property="og:description" content="Explore the architectural narrative of the Roman Wellness Sanctuary concept." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
     <script>
       tailwind.config = {
         theme: {
@@ -37,8 +46,10 @@
               }
             },
             animation: {
-              'fade-in': 'fadeIn 1.5s ease-out forwards',
-              'slide-up': 'slideUp 1s ease-out forwards',
+              'fade-in': 'fadeIn 2s ease-out forwards',
+              'slide-up': 'slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'float': 'float 6s ease-in-out infinite',
+              'pulse-slow': 'pulse 10s ease-in-out infinite',
             },
             keyframes: {
               fadeIn: {
@@ -46,9 +57,13 @@
                 '100%': { opacity: '1' },
               },
               slideUp: {
-                '0%': { transform: 'translateY(20px)', opacity: '0' },
-                '100%': { transform: 'translateY(0)', opacity: '1' },
+                '0%': { transform: 'translateY(40px)', opacity: '0', filter: 'blur(10px)' },
+                '100%': { transform: 'translateY(0)', opacity: '1', filter: 'blur(0)' },
               },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
+              }
             }
           }
         }
@@ -59,44 +74,111 @@
         background-color: #0a0a0a;
         color: #e5e5e5;
         overflow-x: hidden;
+        cursor: none; 
       }
       .scroll-reveal {
         opacity: 0;
         transform: translateY(30px);
-        transition: all 1s ease-out;
+        filter: blur(10px);
+        transition: all 1.4s cubic-bezier(0.16, 1, 0.3, 1);
       }
       .scroll-reveal.visible {
         opacity: 1;
         transform: translateY(0);
+        filter: blur(0);
       }
       ::-webkit-scrollbar {
-        width: 8px;
+        width: 3px;
       }
       ::-webkit-scrollbar-track {
         background: #0a0a0a;
       }
       ::-webkit-scrollbar-thumb {
         background: #333;
-        border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
         background: #b48641;
       }
+      #custom-cursor {
+        width: 32px;
+        height: 32px;
+        border: 1px solid rgba(180, 134, 65, 0.5);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.15s ease-out, background 0.3s, width 0.3s, height 0.3s;
+        transform: translate(-50%, -50%);
+        mix-blend-mode: screen;
+        box-shadow: 0 0 20px rgba(180, 134, 65, 0.1);
+      }
+      .cursor-glow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        background: radial-gradient(400px circle at var(--x) var(--y), rgba(180, 134, 65, 0.04), transparent 80%);
+        z-index: 1;
+      }
+      /* Smooth route transitions */
+      .page-transition {
+        animation: fadeIn 1s ease-out forwards;
+      }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.39.0"
-  }
-}
-</script>
-</head>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.2.4",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+        "react/": "https://esm.sh/react@^19.2.4/",
+        "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
+        "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+        "@google/genai": "https://esm.sh/@google/genai@^1.39.0"
+      }
+    }
+    </script>
+  </head>
   <body>
+    <div id="custom-cursor"></div>
+    <div class="cursor-glow" id="cursor-glow"></div>
     <div id="root"></div>
+    <script>
+      const cursor = document.getElementById('custom-cursor');
+      const glow = document.getElementById('cursor-glow');
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        glow.style.setProperty('--x', e.clientX + 'px');
+        glow.style.setProperty('--y', e.clientY + 'px');
+      });
+      document.addEventListener('mousedown', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        cursor.style.background = 'rgba(180, 134, 65, 0.2)';
+      });
+      document.addEventListener('mouseup', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursor.style.background = 'transparent';
+      });
+      
+      // Handle links hover state for cursor
+      document.addEventListener('mouseover', (e) => {
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('a') || e.target.closest('button')) {
+          cursor.style.width = '64px';
+          cursor.style.height = '64px';
+          cursor.style.border = '1px solid rgba(180, 134, 65, 0.8)';
+          cursor.style.background = 'rgba(180, 134, 65, 0.05)';
+        }
+      });
+      document.addEventListener('mouseout', (e) => {
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('a') || e.target.closest('button')) {
+          cursor.style.width = '32px';
+          cursor.style.height = '32px';
+          cursor.style.border = '1px solid rgba(180, 134, 65, 0.5)';
+          cursor.style.background = 'transparent';
+        }
+      });
+    </script>
   </body>
 </html>

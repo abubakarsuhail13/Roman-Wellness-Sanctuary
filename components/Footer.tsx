@@ -46,9 +46,14 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="pt-10 border-t border-white/5 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
-          <p className="text-[10px] uppercase tracking-widest text-stone-600 mb-4 md:mb-0">
-            © {new Date().getFullYear()} Roman Wellness Sanctuary. All Rights Reserved.
-          </p>
+          <div className="flex flex-col space-y-2 mb-6 md:mb-0">
+            <p className="text-[10px] uppercase tracking-widest text-stone-600">
+              © {new Date().getFullYear()} Roman Wellness Sanctuary. All Rights Reserved.
+            </p>
+            <p className="text-[9px] uppercase tracking-[0.3em] text-stone-700 font-light">
+              Powered by <a href="https://www.nexaforgetech.com" target="_blank" rel="noopener noreferrer" className="text-gold-600/80 hover:text-gold-400 transition-colors">Nexaforge Technologies</a>
+            </p>
+          </div>
           <div className="bg-stone-900 px-4 py-1 border border-white/5 text-[9px] uppercase tracking-[0.3em] text-gold-600">
             Confidential & Proprietary Concept
           </div>
