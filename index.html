@@ -81,7 +81,6 @@
         overflow-x: hidden;
         cursor: none; 
       }
-      /* Ensure text is visible if images fail */
       .bg-hero-placeholder {
         background-image: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
       }
@@ -131,9 +130,6 @@
         background: radial-gradient(400px circle at var(--x) var(--y), rgba(180, 134, 65, 0.04), transparent 80%);
         z-index: 1;
       }
-      .page-transition {
-        animation: fadeIn 1.2s ease-out forwards;
-      }
     </style>
     <script type="importmap">
     {
@@ -152,6 +148,10 @@
     <div id="custom-cursor"></div>
     <div class="cursor-glow" id="cursor-glow"></div>
     <div id="root"></div>
+    
+    <!-- Main Application Entry Point -->
+    <script type="module" src="index.tsx"></script>
+
     <script>
       const cursor = document.getElementById('custom-cursor');
       const glow = document.getElementById('cursor-glow');

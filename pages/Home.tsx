@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, ArrowRight, Maximize2, MoveDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const IMG_URLS = {
   0: 'https://lh3.googleusercontent.com/d/1sAtYc7QXK3LkU-w8hKxmn9tqvXc7Gdcb',
@@ -31,19 +31,19 @@ const GalleryCard: React.FC<{ img: any, idx: number, addToRefs: (el: HTMLDivElem
     <div 
       ref={(el) => {
         addToRefs(el);
-        (cardRef as any).current = el;
+        if (cardRef) (cardRef as any).current = el;
       }} 
       onMouseMove={handleMouseMove}
-      className="scroll-reveal break-inside-avoid group relative overflow-hidden bg-stone-900 border border-white/5 shadow-2xl transition-all duration-700 hover:border-gold-500/30"
+      className="scroll-reveal break-inside-avoid group relative overflow-hidden bg-stone-900 border border-white/5 shadow-2xl transition-all duration-700 hover:border-gold-500/30 mb-8"
     >
       <div className="relative overflow-hidden aspect-auto bg-stone-950">
         <img 
           src={img.src} 
           alt={img.title} 
           className="w-full h-auto object-cover transition-transform duration-[3s] ease-out group-hover:scale-110" 
+          loading="lazy"
         />
         
-        {/* SPECULAR LIGHT LAYER */}
         <div 
           className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-soft-light"
           style={{
@@ -51,7 +51,6 @@ const GalleryCard: React.FC<{ img: any, idx: number, addToRefs: (el: HTMLDivElem
           }}
         ></div>
 
-        {/* OVERLAY CONTENT */}
         <div className="absolute inset-0 bg-stone-950/20 group-hover:bg-stone-950/60 transition-all duration-700 flex flex-col justify-end p-8 md:p-12 opacity-0 group-hover:opacity-100">
           <div className="translate-y-12 group-hover:translate-y-0 transition-transform duration-700 ease-out">
             <p className="font-cinzel text-gold-400 text-[9px] tracking-[0.6em] uppercase mb-4 opacity-70">Atmosphere {idx + 1}</p>
@@ -131,18 +130,15 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <div className="bg-stone-950 text-stone-200 selection:bg-gold-500/30">
-      {/* SCROLL INDICATOR SIDEBAR */}
+    <div className="bg-stone-950 text-stone-200 selection:bg-gold-500/30 min-h-screen">
       <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-center space-y-6 pointer-events-none">
         <div className="w-px h-24 bg-white/10 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full bg-gold-500/50 h-full -translate-y-full animate-pulse"></div>
+          <div className="absolute top-0 left-0 w-full bg-gold-500/50 h-full animate-pulse"></div>
         </div>
         <span className="text-[8px] font-cinzel text-stone-500 tracking-[0.5em] rotate-90 origin-center whitespace-nowrap translate-y-8 uppercase">Navigation Ritual</span>
       </div>
 
-      {/* HERO SECTION */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden bg-stone-950 bg-hero-placeholder">
-        {/* Background Image Layer */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-stone-950 z-10"></div>
           <img 
@@ -151,15 +147,12 @@ const Home: React.FC = () => {
             className="w-full h-full object-cover scale-110 brightness-[0.5] will-change-transform"
             alt="Roman Wellness Sanctuary Vision"
           />
-          {/* Dust/Atmosphere Overlay */}
           <div className="absolute inset-0 z-15 opacity-10 pointer-events-none mix-blend-screen bg-[url('https://www.transparenttextures.com/patterns/dust.png')]"></div>
         </div>
 
-        {/* Content Layer */}
         <div ref={heroContentRef} className="relative z-20 text-center px-6 max-w-7xl will-change-transform">
           <div className="animate-fade-in flex flex-col items-center">
-            {/* Tagline */}
-            <div className="flex items-center space-x-4 mb-8 opacity-0 animate-fade-in">
+            <div className="flex items-center space-x-4 mb-8 animate-fade-in">
               <div className="h-px w-8 bg-gold-500/40"></div>
               <h2 className="font-cinzel text-gold-400 text-[9px] md:text-xs tracking-[1.2em] uppercase">
                 An Architectural Narrative
@@ -167,7 +160,6 @@ const Home: React.FC = () => {
               <div className="h-px w-8 bg-gold-500/40"></div>
             </div>
             
-            {/* Main Heading */}
             <div className="overflow-hidden mb-12">
               <h1 className="font-serif text-6xl md:text-9xl lg:text-[12rem] text-white leading-[0.85] tracking-tight animate-hero-reveal">
                 SACRED <br/> 
@@ -175,12 +167,10 @@ const Home: React.FC = () => {
               </h1>
             </div>
             
-            {/* Descriptive Text */}
             <p className="font-sans text-stone-300 text-lg md:text-xl max-w-xl mx-auto mb-16 font-light leading-relaxed animate-fade-in [animation-delay:0.8s]">
               Honoring the monumental rhythm of Rome through contemporary void and material silence.
             </p>
 
-            {/* Primary Action */}
             <div className="animate-fade-in [animation-delay:1.2s]">
               <Link 
                 to="/concept" 
@@ -196,16 +186,13 @@ const Home: React.FC = () => {
           </div>
         </div>
 
-        {/* Scroll Hint */}
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-4 opacity-40 hover:opacity-100 transition-opacity duration-500 cursor-pointer animate-fade-in [animation-delay:1.5s]">
           <span className="text-[8px] font-cinzel tracking-[0.4em] text-white uppercase">Discover</span>
           <div className="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
         </div>
       </section>
 
-      {/* LIGHT & SHADOW GALLERY */}
       <section className="py-48 px-6 bg-stone-950 relative" id="portfolio">
-        {/* Abstract Light Shapes */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
           <div className="absolute top-1/4 -left-1/4 w-[800px] h-[800px] bg-gold-500/5 blur-[160px] rounded-full"></div>
           <div className="absolute bottom-1/4 -right-1/4 w-[600px] h-[600px] bg-stone-500/5 blur-[120px] rounded-full"></div>
@@ -221,7 +208,7 @@ const Home: React.FC = () => {
             </p>
           </div>
 
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-12 space-y-12">
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-12">
             {galleryImages.map((img, idx) => (
               <GalleryCard key={idx} img={img} idx={idx} addToRefs={addToRefs} />
             ))}
@@ -229,7 +216,6 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* MATERIALITY SECTION */}
       <section className="py-48 bg-stone-900/40 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-24 items-center">
           <div ref={addToRefs} className="scroll-reveal order-2 lg:order-1">
@@ -258,7 +244,6 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* THE VISIONARY STATEMENT */}
       <section className="py-64 bg-stone-950 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 pointer-events-none">
            <img src={IMG_URLS[7]} className="w-full h-full object-cover grayscale" alt="Background Texture" />
